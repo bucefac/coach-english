@@ -1,0 +1,23 @@
+.root.train {
+  text-align: center;
+  .title {
+    justify-content: center;
+  }
+  .answer {
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .actions {
+    height: 52px;
+    padding: 0;
+    .btn {
+      height: 100%;
+    }
+  }
+  .content {
+
+  }
+}
