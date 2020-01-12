@@ -1,2 +1,7 @@
 export { default as clothes } from './clothes'
 export { default as common } from './common'
+export { default as housework } from './housework'
+export { default as irregularVerbs } from './irregularVerbs'
+export { default as shopping } from './shopping'
+export { default as verbs } from './verbs'
+export { default as weather } from './weather'

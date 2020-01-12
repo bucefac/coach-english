@@ -3,10 +3,12 @@ import Dictionary from '@/dictionary/Dictionary'
 export default {
   data () {
     return {
-      seconds: 5,
-      maxSeconds: 5,
-      interval: null,
+      seconds: 4,
+      maxSeconds: 4,
+      meditationInterval: null,
+      enlightenmentInterval: null,
       goal: null,
+      iteration: 0,
     }
   },
   computed: {
@@ -16,29 +18,70 @@ export default {
     question () {
       return this.goal.en
     },
-    ask () {
-      return this.seconds === 0 && this.goal.ru
+    answer () {
+      return this.iteration === 1 && this.goal.ru
     }
   },
   created () {
     this.$d = new Dictionary()
     this.goal = this.$d.getRandom()
-    this.startTimer()
+    this.startMeditationTimer()
+  },
+  mounted () {
+    document.addEventListener('keydown', this.onKeydown)
+  },
+  beforeDestroy () {
+    document.removeEventListener('keydown', this.onKeydown)
   },
   methods: {
-    startTimer () {
-      if (this.interval) {
-        clearInterval(this.interval)
+    onKeydown (e) {
+      switch (e.code) {
+        case 'Space': {
+          this.nextIteration()
+        }
+      }
+    },
+    nextIteration () {
+      this.iteration = (this.iteration + 1) % 2
+      this.seconds = this.maxSeconds
+      if (this.iteration === 0) {
+        clearInterval(this.enlightenmentInterval)
+        this.startMeditationTimer()
+      } else {
+        clearInterval(this.meditationInterval)
+        this.startEnlightenmentTimer()
+      }
+    },
+    startEnlightenmentTimer () {
+      if (this.enlightenmentInterval) {
+        clearInterval(this.enlightenmentInterval)
+      }
+      this.enlightenmentInterval = setInterval(this.enlightenmentTimer, 1000)
+    },
+    startMeditationTimer () {
+      if (this.meditationInterval) {
+        clearInterval(this.meditationInterval)
       }
       this.goal = this.$d.getRandom()
-      this.seconds = this.maxSeconds
-      this.interval = setInterval(this.timer, 1000)
+      this.voiceText(this.question)
+      this.meditationInterval = setInterval(this.meditationTimer, 1000)
     },
-    timer () {
+    enlightenmentTimer () {
       this.seconds--  
       if (this.seconds === 0) {
-        clearInterval(this.interval)
+        clearInterval(this.enlightenmentInterval)
+        this.nextIteration()
       }
+    },
+    meditationTimer () {
+      this.seconds--  
+      if (this.seconds === 0) {
+        clearInterval(this.meditationInterval)
+        this.nextIteration()
+      }
+    },
+    voiceText (text) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text))
     }
   }
 }

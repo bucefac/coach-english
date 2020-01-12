@@ -4,11 +4,14 @@
     <v-progress-circular :size="70" :width="7" :rotate="-90" :value="progress" color="primary">{{ seconds }}</v-progress-circular>
   </v-card-text>
   <div class="answer">
-    <span v-if="ask">{{ ask }}</span>
+    <span v-if="answer">{{ answer }}</span>
   </div>
   <v-divider></v-divider>
   <v-card-actions class="actions">
-    <v-btn class="btn" text block @click="startTimer">NEXT</v-btn>
+    <v-btn class="btn" text block @click="nextIteration">
+      <span v-if="iteration === 0">ANSWER</span>
+      <span v-else>NEXT</span>
+    </v-btn>
   </v-card-actions>
 </v-card>
   
