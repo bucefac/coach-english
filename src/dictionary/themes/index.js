@@ -1,5 +1,7 @@
+export { default as attractions } from './attractions'
 export { default as clothes } from './clothes'
 export { default as common } from './common'
+export { default as health } from './health'
 export { default as housework } from './housework'
 export { default as irregularVerbs } from './irregularVerbs'
 export { default as shopping } from './shopping'
